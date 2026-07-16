@@ -9,3 +9,5 @@ langchain-google-genai
 langchain-pinecone
 langchain-groq
 python-multipart
+streamlit
+psycopg2-binary
