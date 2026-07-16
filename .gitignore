@@ -1,0 +1,21 @@
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary File Uploads
+upload/
+
+# Local Databases (To prevent overriding cloud data later)
+*.db
+*.sqlite3
+
+# OS System Files
+.DS_Store
+Thumbs.db

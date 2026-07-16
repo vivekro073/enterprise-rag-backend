@@ -1,0 +1,74 @@
+1. System Architecture (How the Data Flows)
+We are going to split this application into two distinct workflows: the Ingestion Pipeline (handling the PDFs) and the Retrieval Pipeline (handling the chat).
+
+-----Workflow A: Document Ingestion
+
+A user hits a FastAPI endpoint to upload a PDF file.
+
+The file is saved temporarily.
+
+LangChain's Document Loaders read the text.
+
+LangChain's Text Splitters divide the document into semantic chunks.
+
+LangChain converts those chunks into embeddings and securely pushes them to your cloud Pinecone index.
+
+FastAPI logs the document's metadata (filename, upload date, chunk count) into your SQL database.
+
+-----Workflow B: Question Answering (The LCEL RAG)
+
+A user sends a JSON payload with their question to a different FastAPI endpoint.
+
+The request triggers your LCEL chain (RunnablePassthrough | prompt | llm | parser).
+
+The chain automatically reaches out to Pinecone, grabs the matching chunks, and feeds them to Groq/OpenAI.
+
+The AI generates the structured response.
+
+FastAPI saves both the user's question and the AI's answer into your SQL database for audit history, then returns the answer to the user.
+
+2. Required Libraries & Tech Stack
+To keep this lightweight but enterprise-grade, we will need a mix of web, AI, and database libraries. You will eventually put these in a requirements.txt file.
+
+The Web & Validation Layer
+
+fastapi: The core backend framework.
+
+uvicorn: The server that actually runs your FastAPI application.
+
+pydantic: For strictly defining your data models (e.g., making sure the user actually sends a "question" string).
+
+python-multipart: Required by FastAPI specifically to handle file uploads (PDFs).
+
+The AI & Logic Layer
+
+langchain & langchain-core: For your LCEL orchestration and chunking strategies.
+
+langchain-openai or langchain-groq: The specific integration packages for your chosen LLM.
+
+langchain-pinecone: The official LangChain wrapper for connecting to Pinecone vector stores.
+
+pinecone-client: The underlying SDK required to talk to Pinecone's cloud servers.
+
+pypdf or pymupdf: High-performance libraries for extracting text from PDF files.
+
+The Database & Configuration Layer
+
+sqlalchemy: The ORM (Object-Relational Mapper) to interact with your SQL database using Python objects.
+
+python-dotenv: To securely load your API keys and database URLs from a .env file so they never end up on GitHub.
+
+3. The Enterprise Directory Structure
+To prove this isn't just a basic script, we will structure your folders like a professional backend microservice. You can set this up in your code editor across your monitors to keep the routing separate from the AI logic.
+
+main.py: The entry point that boots up the FastAPI app.
+
+api/: This folder will contain your route endpoints (e.g., upload.py and chat.py).
+
+services/: This is where the heavy lifting lives. You will have a file here for the LCEL chain logic and another for the document processing logic.
+
+database/: This folder will hold your SQLAlchemy models, schemas, and the database connection setup.
+
+.env: Your hidden file for API keys.
+
+requirements.txt: Your list of dependencies.

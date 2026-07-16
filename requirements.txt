@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-google-genai
+langchain-pinecone
+langchain-groq
+python-multipart
