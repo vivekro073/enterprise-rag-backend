@@ -11,3 +11,4 @@ langchain-groq
 python-multipart
 streamlit
 psycopg2-binary
+pypdf
