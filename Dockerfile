@@ -31,4 +31,5 @@ COPY --chown=user:user . .
 EXPOSE 7860
 
 # 11. Start the FastAPI server (Assuming your python file is named main.py)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Start the orchestration script that handles both frontend and backend
+CMD ["python", "run.py"]
