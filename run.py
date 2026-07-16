@@ -15,8 +15,10 @@ def start_services():
     # 2. Start Streamlit frontend
     print("🎨 Starting Streamlit frontend on port 7860...")
     frontend_process = subprocess.Popen([
-        sys.executable, "-m", "streamlit", "run", "app.py",
-        "--server.port", "7860", "--server.address", "0.0.0.0"
+        sys.executable, "-m", "streamlit", "run", "app.py", 
+        "--server.port", "7860", 
+        "--server.address", "0.0.0.0",
+        "--server.enableXsrfProtection", "false" 
     ])
 
     # Keep the orchestrator alive while both processes run
