@@ -15,4 +15,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://vivekro073:$HF_TOKEN@huggingface.co/spaces/vivekro073/enterprise-rag-analyzer main --force
+        run: git push https://vivekro073:$HF_TOKEN@huggingface.co/spaces/vivekro073/enterprise-rag-analyzer HEAD:refs/heads/main --force
